@@ -9,4 +9,7 @@ These documents can then optionally be converted to other formats such as PDF, W
 - Using JSON for template data
 - Using LibreOffice Java UNO runtime API [api.libreoffice.org](https://api.libreoffice.org/)
 
+# References
+[LibreOffice Developer's Guide](https://wiki.documentfoundation.org/Documentation/DevGuide#What_This_Manual_Covers)
+
 Thank you!  
