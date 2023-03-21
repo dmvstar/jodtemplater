@@ -1,0 +1,27 @@
+{
+    "templateFile": "res/szablon-0.odt",
+    "data" : [
+        {"key":"Model", "val" : "Mercedes"},
+        {"key":"Rok", "val" : "2023"},
+        {"key":"Title", "val" : "NEW"},
+        {"key":"Title", "val" : "NEW"},
+        {"key":"Person", "val" : "Samuel"},
+        {"key":"Opony", "val" : "Dębica Navigator 3"},
+        {"key":"TemplateFile", "val" : "res/szablon-0.odt"},
+        {"key":"DateTime", "val" : "NOW()"},
+        {"key":"models", "header" : 1, "val" : [
+                [{"key":"Model", "val" : "Mercedes L400"},
+                 {"key":"Year",  "val" : "2008"},
+                 {"key":"Cost",  "val" : "9000.00"}],
+                [{"key":"Model", "val" : "Opel Astra"},
+                 {"key":"Year",  "val" : "2007"},
+                 {"key":"Cost",  "val" : "6000.00"}],
+                [{"key":"Model", "val" : "Hyundai Matrix"},
+                 {"key":"Year",  "val" : "2010"},
+                 {"key":"Cost",  "val" : "7500.00"}],
+                [{"key":"Model", "val" : "Hyundai i30"},
+                 {"key":"Year",  "val" : "2010"},
+                 {"key":"Cost",  "val" : "8000.00"}]
+        ]}
+    ]
+}

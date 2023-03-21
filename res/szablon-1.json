@@ -1,0 +1,49 @@
+{
+    "templateFile": "res/szablon-1.odt",
+    "data" : [       
+        {"key": "AGENT.POSITION",  "val" : "Директор" },
+        {"key": "AGENT.DESCRIPTION",  "val" :"Статуту" },
+        {"key": "AGENT.LAST_NAME",  "val" :"Сидола П.С." },
+        {"key": "AGENT.POSITION_DESCRIPTION",  "val" :"Директора" }, 
+        {"key": "AGREEMENT.AGREEMENT_DATE", "val" : "22 листопада 2022 р." }, 
+        {"key": "AGREEMENT.DATE_FROM", "val" : "22.11.2022" },
+        {"key": "AGREEMENT.DATE_TO", "val" : "22.11.2023" },
+        {"key": "AGREEMENT.NUMBER", "val" : "T_3101_AWS_1" },
+        {"key": "BANK.ACCOUNT.ACCOUNT_NUMBER",  "val" :"UA80 3808 0500 0000 0026 0057 5409 5" },
+        {"key": "BANK.ACCOUNT.BANK_NAME",  "val" :"ПАТ «Укргазбанк», м. Київ" },
+        {"key": "BANK.ACCOUNT.MFI",  "val" :"300001" },
+        {"key": "CONTACT_CONTENT.ADDITIONAL_EMAIL",  "val" :"ada@email.me" },
+        {"key": "CONTACT_CONTENT.FAX_NUMBER", "val" : "2223311" },
+        {"key": "CONTRACTOR.EDRPOU_CODE",  "val" :"38678336" },
+        {"key": "CONTRACTOR.EIC_CODE",  "val" :"21X000000001397P" },
+        {"key": "CONTRACTOR.NAME", "val" : "ТОВ Мазда" },
+        {"key": "CONTRACTOR.NIP_NATIONAL",  "val" :"386783304631" },
+        {"key": "SETTLEMENT_PRICE.PRICE_VALUE",  "val" :"9.45" },
+        {"key": "CONTRACTOR.VAT_PAYER_CERTIFICATE_NUMBER",  "val" :"3322332233" },   
+        {"key": "ppes", "header" : 1,"val" : [
+                [{"key":"CODE",     "val" : "34FR4432334566"},
+                 {"key":"GROUP",    "val" : "A"},
+                 {"key":"VOLUME",   "val" : "100"}],
+                [{"key":"CODE",     "val" : "34FR4432334567"},
+                 {"key":"GROUP",    "val" : "A"},
+                 {"key":"VOLUME",   "val" : "200"}],
+                [{"key":"CODE",     "val" : "34FR4432334567"},
+                 {"key":"GROUP",    "val" : "B"},
+                 {"key":"VOLUME",   "val" : "150"}] ,
+                [{"key":"CODE",     "val" : "34FR4432334567"},
+                 {"key":"GROUP",    "val" : "B"},
+                 {"key":"VOLUME",   "val" : "200"}]        
+        ]},
+        {"key": "payments", "header" : 0,"val" : [
+                [{"key":"SETTLEMENT_DIVISION.CONSUMPTION_PERCENT",  "val" : "35%"},
+                 {"key":"SETTLEMENT_DIVISION.SETTLEMENT_PAYMENT_TERM",  "val" : "місяця, що передує розрахунковому період"},
+                 {"key":"SETTLEMENT_DIVISION.SETTLEMENT_DAYS",     "val" : "5"}],
+                [{"key":"SETTLEMENT_DIVISION.CONSUMPTION_PERCENT",  "val" : "35%"},
+                 {"key":"SETTLEMENT_DIVISION.SETTLEMENT_PAYMENT_TERM",  "val" : "розрахункового періоду"},
+                 {"key":"SETTLEMENT_DIVISION.SETTLEMENT_DAYS",     "val" : "15"}],
+                [{"key":"SETTLEMENT_DIVISION.CONSUMPTION_PERCENT",  "val" : "30%"},
+                 {"key":"SETTLEMENT_DIVISION.SETTLEMENT_PAYMENT_TERM",  "val" : "розрахункового періоду"},
+                 {"key":"SETTLEMENT_DIVISION.SETTLEMENT_DAYS",     "val" : "25"}]
+        ]}
+    ]
+}

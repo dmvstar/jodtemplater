@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.stardust.libreoffice</groupId>
+    <artifactId>libretempla</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <exec.mainClass>org.stardust.libreoffice.libretempla.TemplateLibreFiller</exec.mainClass>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>/usr/lib/libreoffice/program</additionalClasspathElement>            
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>        
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/libreoffice -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>libreoffice</artifactId>
+            <version>7.3.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/jurt -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>jurt</artifactId>
+            <version>7.3.6</version>
+        </dependency>        
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/juh -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>juh</artifactId>
+            <version>7.3.6</version>
+        </dependency>        
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/unoloader -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>unoloader</artifactId>
+            <version>7.3.6</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/ridl -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>ridl</artifactId>
+            <version>7.3.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/unoil -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>unoil</artifactId>
+            <version>7.3.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.libreoffice/officebean -->
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>officebean</artifactId>
+            <version>7.3.6</version>
+        </dependency>
+        
+        <!--
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>ridl</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>/usr/lib/libreoffice/program/classes/ridl.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>unoil</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>/usr/lib/libreoffice/program/classes/unoil.jar</systemPath>
+        </dependency>
+        -->
+        
+        <!--
+        <dependency>
+            <groupId>org.libreoffice</groupId>
+            <artifactId>bin</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>/usr/lib/libreoffice/program/</systemPath>
+        </dependency>         
+        -->        
+        
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
+
+
+    </dependencies>
+</project>
