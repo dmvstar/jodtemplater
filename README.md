@@ -6,6 +6,7 @@ These documents can then optionally be converted to other formats such as PDF, W
 
 # Features
 - Templates are LibreOffice Text (ODT) files
+- Using JSON for template data
 - Using LibreOffice Java UNO runtime API [api.libreoffice.org](https://api.libreoffice.org/)
 
 Thank you!  
