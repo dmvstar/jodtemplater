@@ -13,3 +13,6 @@ These documents can then optionally be converted to other formats such as PDF, W
 [LibreOffice Developer's Guide](https://wiki.documentfoundation.org/Documentation/DevGuide#What_This_Manual_Covers)
 
 Thank you!  
+
+# History
+Historical renovation of code from 2007 :)
