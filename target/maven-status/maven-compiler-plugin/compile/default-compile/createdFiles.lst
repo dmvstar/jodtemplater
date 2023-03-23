@@ -1,8 +1,0 @@
-org/stardust/libreoffice/libretempla/TemplateConstants.class
-org/stardust/libreoffice/libretempla/TemplateDataFile.class
-org/stardust/libreoffice/libretempla/TemplateException.class
-org/stardust/libreoffice/libretempla/TemplateLibreFiller.class
-org/stardust/libreoffice/libretempla/utils/CoderException.class
-org/stardust/libreoffice/libretempla/TemplateExampleData.class
-org/stardust/libreoffice/libretempla/utils/UUEncoDeco.class
-org/stardust/libreoffice/libretempla/ITemplateDataFile.class
