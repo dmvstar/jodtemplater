@@ -1,5 +1,6 @@
 {
     "templateFile": "res/szablon-0.odt",
+    "outputExt1": "pdf",
     "data" : [
         {"key":"Model", "val" : "Mercedes"},
         {"key":"Rok", "val" : "2023"},

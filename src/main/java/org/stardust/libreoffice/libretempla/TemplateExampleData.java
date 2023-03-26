@@ -147,4 +147,10 @@ public class TemplateExampleData implements ITemplateDataFile {
         return ret;
     }
 
+    @Override
+    public String getOutputDocumentFileExt() {
+        String ret = "pdf";
+        return ret;
+    }
+
 }

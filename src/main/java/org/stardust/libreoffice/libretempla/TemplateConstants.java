@@ -28,7 +28,6 @@
  * Created on 3 жовтня 2007, 21:18
  *
  */
-
 package org.stardust.libreoffice.libretempla;
 
 /**
@@ -36,16 +35,17 @@ package org.stardust.libreoffice.libretempla;
  * @author sdv
  */
 public interface TemplateConstants {
-    
+
     public static final String TEMPLATE_FILE_KEY = "templateFile";
+    public static final String TEMPLATE_OUTEXT_KEY = "outputExt";
     public static final String TEMPLATE_DATA_KEY = "data";
     public static final String TEMPLATE_DATA_HEADER = "header";
     public static final String DATA_KEY = "key";
     public static final String DATA_VAL = "val";
-    
+
     public static final int OUT_FILE_TYPE_SAME = 0;
     public static final int OUT_FILE_TYPE_PDF = 1;
-      
+
     /**
      * Template file is non recognized
      */
@@ -55,21 +55,21 @@ public interface TemplateConstants {
      * Template file is xtl - xml like
      */
     public static final int TEMPLATE_FILE_XTL = 1;
-    
+
     /**
      * Template file in old dat format
      */
     public static final int TEMPLATE_FILE_DAT = 2;
-    
+
     /**
      * Fill patterns like <tumbutu>
      */
     public static final int FILL_PATTERN = 1;
     /**
-     * Fill patterns as user defined fields 
+     * Fill patterns as user defined fields
      */
-    public static final int FILL_FIELDS  = 2;
-    
+    public static final int FILL_FIELDS = 2;
+
     /**
      * Template mode oowriter
      */
@@ -82,7 +82,7 @@ public interface TemplateConstants {
      * Template mode oocalc
      */
     public static final int INSERT_CALC = 3;
-    
+
     /**
      * Template parse mode for ODT file
      */
@@ -107,6 +107,5 @@ public interface TemplateConstants {
      * Template parse mode for XLS file
      */
     public static final String IDENT_TEMPLATE_CALC_3 = "insert2ods";
-    
-    
+
 }

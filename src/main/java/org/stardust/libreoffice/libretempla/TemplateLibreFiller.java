@@ -176,7 +176,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 }
             }
         }
-        saveOutput();
+        saveOutputDocument();
     }
 
     /**
@@ -305,11 +305,11 @@ public class TemplateLibreFiller implements TemplateConstants {
         loadProps[0] = new PropertyValue();
         loadProps[0].Name = "AsTemplate";
         loadProps[0].Value = new Boolean(true);
-/*
+        /*
         loadProps[1] = new com.sun.star.beans.PropertyValue();
         loadProps[1].Name = "Hidden";
         loadProps[1].Value = Boolean.TRUE;
-*/
+         */
         // load
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
     }
@@ -352,7 +352,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         return ret;
     }
 
-    public void saveOutput() throws CloseVetoException, com.sun.star.io.IOException {
+    public void saveOutputDocument() throws CloseVetoException, com.sun.star.io.IOException {
         String sLoadUrl = templateDataFile.getTemplateDocumentFileURL();
         String sSaveUrl = templateDataFile.getOutputDocumentFileURL();
         //sSaveUrl = "file:////home/devel/repo/my/JODTemplater/res/szablon-ooooo.odt";
@@ -364,24 +364,20 @@ public class TemplateLibreFiller implements TemplateConstants {
 
             com.sun.star.beans.PropertyValue[] propertyValues
                     = new com.sun.star.beans.PropertyValue[2];
-/*
             propertyValues[0] = new com.sun.star.beans.PropertyValue();
             propertyValues[0].Name = "Overwrite";
             propertyValues[0].Value = Boolean.TRUE;
-            propertyValues[1] = new com.sun.star.beans.PropertyValue();
-            propertyValues[1].Name = "FilterName";
-            propertyValues[1].Value = "StarOffice XML (Writer)";
-*/
+            if ("pdf".equals(templateDataFile.getOutputDocumentFileExt())) {
+                propertyValues[1] = new com.sun.star.beans.PropertyValue();
+                propertyValues[1].Name = "FilterName";
+                propertyValues[1].Value = "writer_pdf_Export";
+            }
             System.out.println("\nDocument \"" + sLoadUrl + "\" saved under \""
                     + sSaveUrl + "\"\n");
-
             //oDocToStore.storeAsURL(sSaveUrl, propertyValue);
             oDocToStore.storeToURL(sSaveUrl, propertyValues);
-
-
             com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
                     oDocToStore);
-
             if (xCloseable != null) {
                 xCloseable.close(false);
             } else {

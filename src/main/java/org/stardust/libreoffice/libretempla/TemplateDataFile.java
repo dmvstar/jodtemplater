@@ -42,6 +42,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import static org.stardust.libreoffice.libretempla.TemplateConstants.DATA_KEY;
 import static org.stardust.libreoffice.libretempla.TemplateConstants.DATA_VAL;
@@ -66,6 +67,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
     private String outputDocumentFileName;
     private final int outputDocumentFileType;
     private HashMap<String, Object> templateDataMap;
+    private String outputDocumentFileExt;
 
     public TemplateDataFile(String aDataFileName, int aOutputDocumentFileType) {
         this.dataFileName = aDataFileName;
@@ -87,7 +89,8 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             if (getTemplateDataString() != null) {
                 templateDataJson = prepareTemplateDataJson(getTemplateDataString());
                 templateDocumentFileName = prepareTemplateName();
-                outputDocumentFileName = prepareOutputDocumentFileName();
+                outputDocumentFileExt  = prepareOutputDocumentFileExt();
+                outputDocumentFileName = prepareOutputDocumentFileName();                
                 templateDataMap = createTemplateDataMap();
             } else {
                 throw new TemplateException("No TemplateDataString");
@@ -134,6 +137,9 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             }
             if (getOutputDocumentFileType() == OUT_FILE_TYPE_PDF) {
                 outExt = "pdf";
+            }
+            if(outputDocumentFileExt!=null) {
+                outExt = outputDocumentFileExt;
             }
             outputDocumentFileName = outNam + "-out." + outExt;
             ret = getOutputDocumentFileName();
@@ -286,6 +292,25 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         return ret;
     }
 
+    private String prepareOutputDocumentFileExt() throws TemplateException {
+        String ret = "odt"; 
+        if (getTemplateDataJson() == null) {
+            throw new TemplateException("Not defined template data file.");
+        }   
+        System.out.println("prepareOutputDocumentFileExt 1 " + ret);   
+        try {
+            JSONObject json = getTemplateDataJson();
+            ret = json.getString(TEMPLATE_OUTEXT_KEY);
+        } 
+        catch (JSONException e) {
+            ret = "odt"; 
+        }        
+        System.out.println("prepareOutputDocumentFileExt 2 " + ret);      
+        return ret;
+    }
+    
+    
+    
     /**
      * Prepare template file Url for UNO
      *
@@ -316,6 +341,10 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             ret = null;
         }
         return ret;
+    }
+    
+    public String getOutputDocumentFileExt() {        
+        return outputDocumentFileExt;
     }
 
 }

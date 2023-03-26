@@ -43,6 +43,8 @@ public interface ITemplateDataFile {
     public String getOutputDocumentFileURL();
     
     public String getOutputDocumentFileName();
+    
+    public String getOutputDocumentFileExt();
 
     public String getTemplateDocumentFileName();
 
