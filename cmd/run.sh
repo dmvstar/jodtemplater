@@ -5,6 +5,8 @@ OOP=/usr/lib/libreoffice/program
 #:$OOP/classes/unoil.jar\
 #.:$OOP\
 
+cd ../
+
 export OO_SDK_URE_BIN_DIR
 CP="\
 $OOP\

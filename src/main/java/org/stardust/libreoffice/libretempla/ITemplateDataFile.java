@@ -40,6 +40,8 @@ public interface ITemplateDataFile {
 
     HashMap<String, Object> getTemplateDataMap();
 
+    public String getOutputDocumentFileURL();
+    
     public String getOutputDocumentFileName();
 
     public String getTemplateDocumentFileName();

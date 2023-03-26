@@ -1,13 +1,13 @@
-/** 
+/**
  *
  *  $Id: TemplateDataFile.java,v 0.0.2 2023-03-19 11:32:34 sdv Exp $
- *  
+ *
  *  Copyright (C) 2023 Dmitri Starzyński
  *
  *  File :               TemplateDataFile.java
  *  Description :        Example data file parcer
  *  Author's email :     dmvstar.devel@gmail.com
- *  Author's Website :  
+ *  Author's Website :
  *
  *
  * This library is free software; you can redistribute it and/or
@@ -38,6 +38,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -246,8 +248,8 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         LocalDateTime now = LocalDateTime.now();
         ret = dtf.format(now);
         return ret;
-    }    
-    
+    }
+
     /**
      * Create JSON from string data
      *
@@ -301,5 +303,19 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         return ret;
     }
 
+    @Override
+    public String getOutputDocumentFileURL() {
+        String ret;
+        try {
+            // load template with User fields and bookmark
+            java.io.File sourceFile = new java.io.File(outputDocumentFileName);
+            StringBuilder sTemplateFileUrl = new StringBuilder("file:///");
+            sTemplateFileUrl.append(sourceFile.getCanonicalPath().replace('\\', '/'));
+            ret = sTemplateFileUrl.toString();
+        } catch (IOException ex) {
+            ret = null;
+        }
+        return ret;
+    }
 
 }

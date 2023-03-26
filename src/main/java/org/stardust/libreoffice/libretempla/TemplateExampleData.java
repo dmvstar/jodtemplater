@@ -1,13 +1,13 @@
-/** 
+/**
  *
  *  $Id: TemplateExampleData.java,v 0.0.2 2023-03-19 11:32:34  sdv Exp $
- *  
+ *
  *  Copyright (C) 2023 Dmitri Starzyński
  *
  *  File :               TemplateExampleData.java
  *  Description :        Example data for template
  *  Author's email :     dmvstar.devel@gmail.com
- *  Author's Website :  
+ *  Author's Website :
  *
  *
  * This library is free software; you can redistribute it and/or
@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 public class TemplateExampleData implements ITemplateDataFile {
 
     public static String templateTestName = "res/szablon-0.odt";
+    public static String templateOutName = "res/szablon-0-out.odt";
     private String templateDocumentFileURL;
     private HashMap<String, Object> templateDataMap;
 
@@ -93,7 +94,7 @@ public class TemplateExampleData implements ITemplateDataFile {
 
     @Override
     public String getOutputDocumentFileName() {
-        return templateTestName;
+        return templateOutName;
     }
 
     @Override
@@ -120,8 +121,7 @@ public class TemplateExampleData implements ITemplateDataFile {
 
         return ret.toString();
     }
-    
-    
+
     protected String prepareTemplateFileUrl(String templateDocumentFileName) throws IOException {
         String ret;
         // load template with User fields and bookmark
@@ -131,5 +131,20 @@ public class TemplateExampleData implements ITemplateDataFile {
         ret = sTemplateFileUrl.toString();
         return ret;
     }
-    
+
+    @Override
+    public String getOutputDocumentFileURL() {
+        String ret;
+        // load template with User fields and bookmark        
+        try {
+            java.io.File sourceFile = new java.io.File(templateOutName);
+            StringBuilder sTemplateFileUrl = new StringBuilder("file:///");
+            sTemplateFileUrl.append(sourceFile.getCanonicalPath().replace('\\', '/'));
+            ret = sTemplateFileUrl.toString();
+        } catch (IOException ex) {
+            ret = null;
+        }
+        return ret;
+    }
+
 }
