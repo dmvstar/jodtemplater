@@ -41,6 +41,7 @@ import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.frame.XComponentLoader;
+import com.sun.star.frame.XStorable2;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.IndexOutOfBoundsException;
 import com.sun.star.lang.WrappedTargetException;
@@ -55,6 +56,7 @@ import com.sun.star.text.XTextTable;
 import com.sun.star.text.XTextTablesSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.util.CloseVetoException;
 import com.sun.star.util.XReplaceDescriptor;
 import com.sun.star.util.XReplaceable;
 import com.sun.star.util.XSearchable;
@@ -80,7 +82,7 @@ public class TemplateLibreFiller implements TemplateConstants {
      * OpenOffice UNO remote service manager
      */
     private XMultiComponentFactory mxRemoteServiceManager = null;
-    
+
     /**
      * Main class and main method
      *
@@ -94,17 +96,17 @@ public class TemplateLibreFiller implements TemplateConstants {
                 TemplateDataFile templateDataFile = new TemplateDataFile(args[0], OUT_FILE_TYPE_SAME);
                 templateDataFile.buildData();
                 System.out.println(templateDataFile);
-                textDocumentsFiller.templateDataFile = templateDataFile;                
+                textDocumentsFiller.templateDataFile = templateDataFile;
                 //textDocumentsFiller.templateFieldsDataMap = templateDataFile.createTemplateDataMap();
             } else {
                 TemplateExampleData templateExampleData = new TemplateExampleData();
                 templateExampleData.buildData();
-                textDocumentsFiller.templateDataFile = templateExampleData;   
+                textDocumentsFiller.templateDataFile = templateExampleData;
                 System.out.println("Hello TemplateLibreFiller ! " + templateExampleData);
                 //textDocumentsFiller.templateFieldsDataMap = templateExampleData.createTemplateDataMap();
-            }            
+            }
             textDocumentsFiller.processTemplate(textDocumentsFiller.templateDataFile.getTemplateDocumentFileName());
-            
+
         } catch (TemplateException | BootstrapException | com.sun.star.uno.Exception | InterruptedException | IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -133,9 +135,11 @@ public class TemplateLibreFiller implements TemplateConstants {
      * @throws com.sun.star.uno.Exception
      * @throws InterruptedException
      */
+    private XComponent xTemplateComponent;
+
     protected void processTemplate(String templateDocumentFileName)
             throws TemplateException, IOException, BootstrapException, com.sun.star.uno.Exception, InterruptedException {
-        XComponent xTemplateComponent;
+
         String templateDocumentFileURL = templateDataFile.getTemplateDocumentFileURL();
         System.out.println("sTemplateFileUrl = " + templateDocumentFileURL);
         xTemplateComponent = prepareDocComponentFromTemplate(templateDocumentFileURL);
@@ -143,7 +147,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         XReplaceable xReplaceable;
         com.sun.star.util.XSearchable xSearchable;
         HashMap templateFieldsDataMap = templateDataFile.getTemplateDataMap();
-        
+
         Iterator keyIterator = templateFieldsDataMap.keySet().iterator();
         //while(keyIterator.hasNext()){
         //    keyIterator.next(); 
@@ -172,6 +176,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 }
             }
         }
+        saveOutput();
     }
 
     /**
@@ -200,6 +205,7 @@ public class TemplateLibreFiller implements TemplateConstants {
 
     /**
      * Replacr table template with array data
+     *
      * @param xTemplateComponent
      * @param xReplaceable
      * @param tableName name of table
@@ -295,10 +301,15 @@ public class TemplateLibreFiller implements TemplateConstants {
         // define load properties according to com.sun.star.document.MediaDescriptor
         // the boolean property AsTemplate tells the office to create a new document
         // from the given file
-        PropertyValue[] loadProps = new PropertyValue[1];
+        PropertyValue[] loadProps = new PropertyValue[2];
         loadProps[0] = new PropertyValue();
         loadProps[0].Name = "AsTemplate";
         loadProps[0].Value = new Boolean(true);
+/*
+        loadProps[1] = new com.sun.star.beans.PropertyValue();
+        loadProps[1].Name = "Hidden";
+        loadProps[1].Value = Boolean.TRUE;
+*/
         // load
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
     }
@@ -341,58 +352,45 @@ public class TemplateLibreFiller implements TemplateConstants {
         return ret;
     }
 
-    /*
-    private HashMap createTemplateDataMap() throws TemplateException, IOException {
-        HashMap ret = new HashMap();
-        if (templateJSON != null) {
-            JSONArray data = templateJSON.getJSONArray(TEMPLATE_DATA_KEY);
-            for (int i = 0; i < data.length(); i++) {
-                //Iterator<?> keys = data.getJSONObject(i).keys();
-                JSONObject itemj = data.getJSONObject(i);
-                //System.out.println("    Item: " + itemj);
-                String key = itemj.getString(DATA_KEY);
-                Object val = itemj.get(DATA_VAL);
-                //System.out.println("        Key: " + key);
-                //System.out.println("        Class: " + val.getClass());
-                //System.out.println("        Value: " + val);
-                if (val instanceof String) {
-                    if (((String) val).contains("NOW()")) {
-                        val = getNowDateTime();
-                    }
-                    ret.put(key, val);
-                }
-                if (val instanceof JSONArray) {
-                    JSONArray valj = (JSONArray) val;
-                    ArrayList list = new ArrayList();
-                    for (int ii = 0; ii < valj.length(); ii++) {
-                        JSONArray itemsj = valj.getJSONArray(ii);
-                        //System.out.println("        LValue: " + itemsj);
-                        HashMap itemsa = new HashMap();
-                        for (int j = 0; j < itemsj.length(); j++) {
-                            JSONObject itemaj = itemsj.getJSONObject(j);
-                            //System.out.println("            LValue: " + itemaj);
-                            String akey = itemaj.getString(DATA_KEY);
-                            String aval = itemaj.getString(DATA_VAL);
-                            itemsa.put(akey, aval);
-                        }
-                        list.add(itemsa);
-                    }
-                    ret.put(key, list);
-                }
+    public void saveOutput() throws CloseVetoException, com.sun.star.io.IOException {
+        String sLoadUrl = templateDataFile.getTemplateDocumentFileURL();
+        String sSaveUrl = templateDataFile.getOutputDocumentFileURL();
+        //sSaveUrl = "file:////home/devel/repo/my/JODTemplater/res/szablon-ooooo.odt";
+        if (sSaveUrl != null) {
+            com.sun.star.frame.XStorable oDocToStore
+                    = UnoRuntime.queryInterface(
+                            com.sun.star.frame.XStorable.class,
+                            xTemplateComponent);
+
+            com.sun.star.beans.PropertyValue[] propertyValues
+                    = new com.sun.star.beans.PropertyValue[2];
+/*
+            propertyValues[0] = new com.sun.star.beans.PropertyValue();
+            propertyValues[0].Name = "Overwrite";
+            propertyValues[0].Value = Boolean.TRUE;
+            propertyValues[1] = new com.sun.star.beans.PropertyValue();
+            propertyValues[1].Name = "FilterName";
+            propertyValues[1].Value = "StarOffice XML (Writer)";
+*/
+            System.out.println("\nDocument \"" + sLoadUrl + "\" saved under \""
+                    + sSaveUrl + "\"\n");
+
+            //oDocToStore.storeAsURL(sSaveUrl, propertyValue);
+            oDocToStore.storeToURL(sSaveUrl, propertyValues);
+
+
+            com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
+                    oDocToStore);
+
+            if (xCloseable != null) {
+                xCloseable.close(false);
+            } else {
+                com.sun.star.lang.XComponent xComp = UnoRuntime.queryInterface(
+                        com.sun.star.lang.XComponent.class, oDocToStore);
+                xComp.dispose();
             }
-        } else {
-            throw new TemplateException("No JSON dara");
+            System.out.println("document closed!");
         }
-        //throw new UnsupportedOperationException("Not supported yet.");
-        return ret;
     }
 
-    private String getNowDateTime() {
-        String ret;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        ret = dtf.format(now);
-        return ret;
-    }
-    */
 }
