@@ -34,8 +34,17 @@ import java.util.HashMap;
 
 public interface ITemplateDataFile {
 
+    /**
+     * build data for getters
+     * @throws TemplateException 
+     */
     public void buildData() throws TemplateException;
 
+    /**
+     * create map of template data
+     * @return Map
+     * @throws TemplateException 
+     */
     public HashMap createTemplateDataMap() throws TemplateException;
 
     HashMap<String, Object> getTemplateDataMap();
