@@ -1,6 +1,6 @@
 {
     "templateFile": "res/szablon-1.odt",
-    "outputType": "pdf",
+    "outputDocType": "pdf",
     "outputExt":  "pdf",
     "data" : [       
         {"key": "AGENT.POSITION",  "val" : "Директор" },

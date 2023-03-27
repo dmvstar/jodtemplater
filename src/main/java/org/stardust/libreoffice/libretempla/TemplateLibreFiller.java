@@ -62,6 +62,7 @@ import com.sun.star.util.XReplaceDescriptor;
 import com.sun.star.util.XReplaceable;
 import com.sun.star.util.XSearchable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -99,6 +100,9 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println(resourceBundle.getString("welcome"));
 
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
+        InputStream docTypesInputStream = textDocumentsFiller.getClass().getClassLoader().getResourceAsStream("data/docTypes.json");
+        System.out.println(docTypesInputStream);
+        
         try {
             if (args.length > 0) {
                 TemplateDataFile templateDataFile = new TemplateDataFile(args[0], OUT_FILE_TYPE_SAME);
@@ -389,7 +393,7 @@ public class TemplateLibreFiller implements TemplateConstants {
             oDocToStore.storeToURL(sSaveUrl, propertyValues);
             com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
                     oDocToStore);
-                        
+            // https://wiki.openoffice.org/wiki/Documentation/DevGuide/OfficeDev/Using_the_Desktop            
             if (xCloseable != null) {
                 xCloseable.close(false);
                 xDesktop.terminate();
