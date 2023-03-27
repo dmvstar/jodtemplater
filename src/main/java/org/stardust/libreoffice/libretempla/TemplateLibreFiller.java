@@ -41,6 +41,7 @@ import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.frame.XComponentLoader;
+import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XStorable2;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.IndexOutOfBoundsException;
@@ -92,11 +93,11 @@ public class TemplateLibreFiller implements TemplateConstants {
      */
     public static void main(String[] args) {
         System.out.println("Hello TemplateLibreFiller ! " + args.length);
-        
+
         Locale locale_ru_RU = new Locale("ru", "RU");
         ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n.bundle", locale_ru_RU);
         System.out.println(resourceBundle.getString("welcome"));
-        
+
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
         try {
             if (args.length > 0) {
@@ -128,6 +129,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println("  TemplateLibreFiller <DataFileName>");
     }
     private ITemplateDataFile templateDataFile;
+    private XDesktop xDesktop;
 
     public TemplateLibreFiller() {
     }
@@ -302,8 +304,8 @@ public class TemplateLibreFiller implements TemplateConstants {
         // get the remote service manager
         mxRemoteServiceManager = this.prepareRemoteServiceManager();
         // retrieve the Desktop object, we need its XComponentLoader
-        Object desktop = mxRemoteServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", mxRemoteContext);
-        XComponentLoader xComponentLoader = (XComponentLoader) UnoRuntime.queryInterface(XComponentLoader.class, desktop);
+        Object oDesktop = mxRemoteServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", mxRemoteContext);
+        XComponentLoader xComponentLoader = (XComponentLoader) UnoRuntime.queryInterface(XComponentLoader.class, oDesktop);
 
         // define load properties according to com.sun.star.document.MediaDescriptor
         // the boolean property AsTemplate tells the office to create a new document
@@ -311,13 +313,15 @@ public class TemplateLibreFiller implements TemplateConstants {
         PropertyValue[] loadProps = new PropertyValue[2];
         loadProps[0] = new PropertyValue();
         loadProps[0].Name = "AsTemplate";
-        loadProps[0].Value = new Boolean(true);
+        loadProps[0].Value = Boolean.TRUE;
         /*
         loadProps[1] = new com.sun.star.beans.PropertyValue();
         loadProps[1].Name = "Hidden";
         loadProps[1].Value = Boolean.TRUE;
          */
         // load
+        xDesktop = xDesktop = (XDesktop)UnoRuntime.queryInterface(XDesktop.class, oDesktop);
+           
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
     }
 
@@ -379,20 +383,23 @@ public class TemplateLibreFiller implements TemplateConstants {
                 propertyValues[1].Name = "FilterName";
                 propertyValues[1].Value = "writer_pdf_Export";
             }
-            System.out.println("\nDocument \"" + sLoadUrl + "\" saved under \""
+            System.out.println("\nDocument: \"" + sLoadUrl + "\"\nSaved As: \""
                     + sSaveUrl + "\"\n");
             //oDocToStore.storeAsURL(sSaveUrl, propertyValue);
             oDocToStore.storeToURL(sSaveUrl, propertyValues);
             com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
                     oDocToStore);
+                        
             if (xCloseable != null) {
                 xCloseable.close(false);
+                xDesktop.terminate();
+                System.out.println("Desktop.terminate!");
             } else {
                 com.sun.star.lang.XComponent xComp = UnoRuntime.queryInterface(
                         com.sun.star.lang.XComponent.class, oDocToStore);
-                xComp.dispose();
+                xComp.dispose();                
             }
-            System.out.println("document closed!");
+            System.out.println("Document closed!");           
         }
     }
 
