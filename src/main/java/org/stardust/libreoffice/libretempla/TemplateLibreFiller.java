@@ -64,6 +64,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Replace in OpenOffice document (writer or calc) template string to values
@@ -90,6 +92,11 @@ public class TemplateLibreFiller implements TemplateConstants {
      */
     public static void main(String[] args) {
         System.out.println("Hello TemplateLibreFiller ! " + args.length);
+        
+        Locale locale_ru_RU = new Locale("ru", "RU");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n.bundle", locale_ru_RU);
+        System.out.println(resourceBundle.getString("welcome"));
+        
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
         try {
             if (args.length > 0) {
