@@ -1,0 +1,57 @@
+{
+    "URL": "https://wiki.openoffice.org/wiki/Framework/Article/Filter",
+    "com.sun.star.text.TextDocument": {
+        "lo": {
+            "name": "writer",
+            "extension": "odt"
+        },
+        "ms97": {
+            "extension": "doc",
+            "filter": "MS Word 97"
+        },
+        "msXML": {
+            "extension": "docx",
+            "filter": "MS Word 2007 XML"
+        },
+        "pdf": {
+            "extension": "pdf",
+            "filter": "writer_pdf_Export"
+        }
+    },
+    "com.sun.star.sheet.SpreadsheetDocument": {
+        "lo": {
+            "name": "calc",
+            "extension": "ods"
+        },
+        "ms97": {
+            "extension": "xls",
+            "filter": "MS Excel 97"
+        },
+        "msXML": {
+            "extension": "xlsx",
+            "filter": "Calc MS Excel 2007 XML"
+        },
+        "pdf": {
+            "extension": "pdf",
+            "filter": "calc_pdf_Export"
+        }
+    },
+    "com.sun.star.presentation.PresentationDocument": {
+        "lo": {
+            "name": "impress",
+            "extension": "odp"
+        },
+        "ms97": {
+            "extension": "ppt",
+            "filter": "MS PowerPoint 97"
+        },
+        "msXML": {
+            "extension": "pptx",
+            "filter": "Impress MS PowerPoint 2007 XML"
+        },
+        "pdf": {
+            "extension": "pdf",
+            "filter": "impress_pdf_Export"
+        }
+    }
+}
