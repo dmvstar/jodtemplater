@@ -271,7 +271,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                             for (Object key : keys) {
                                 // keys
                                 String testKey = "#{" + key + "}";
-                                System.out.println("    [" + i + "] " + testKey + " -> " + items.get(key));
+                                System.out.println("    [" + i + "] " + testKey + " -> " + items.get(key.toString()));
                                 if (xTextTemp.getString().equalsIgnoreCase(testKey)) {
                                     cellDst = items.get(key.toString());
                                 }
