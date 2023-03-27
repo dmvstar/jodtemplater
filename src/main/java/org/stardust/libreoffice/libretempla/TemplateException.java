@@ -39,7 +39,6 @@ package org.stardust.libreoffice.libretempla;
 public class TemplateException extends Throwable {
     
     /**
-     * 
      * Creates a new instance of TemplateException
      */
     public TemplateException() {
@@ -47,7 +46,6 @@ public class TemplateException extends Throwable {
     }
     
     /**
-     * 
      * Creates a new instance of TemplateException
      * @param info
      */
@@ -57,12 +55,18 @@ public class TemplateException extends Throwable {
     
     /**
      * Creates a new instance of TemplateException 
-     * 
      * @param cause super
      */
     public TemplateException(Throwable cause) {
         super(cause);
     }
-    
+    /**
+     * Creates a new instance of TemplateException 
+     * @param cause super
+     * @param info 
+     */
+    public TemplateException(String info, Throwable cause) {
+        super(info, cause);
+    }
     
 }

@@ -38,8 +38,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -343,6 +341,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         return ret;
     }
     
+    @Override
     public String getOutputDocumentFileExt() {        
         return outputDocumentFileExt;
     }

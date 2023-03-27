@@ -42,7 +42,6 @@ import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XDesktop;
-import com.sun.star.frame.XStorable2;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.IndexOutOfBoundsException;
 import com.sun.star.lang.WrappedTargetException;
@@ -102,7 +101,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
         InputStream docTypesInputStream = textDocumentsFiller.getClass().getClassLoader().getResourceAsStream("data/docTypes.json");
         System.out.println(docTypesInputStream);
-        
+
         try {
             if (args.length > 0) {
                 TemplateDataFile templateDataFile = new TemplateDataFile(args[0], OUT_FILE_TYPE_SAME);
@@ -225,12 +224,13 @@ public class TemplateLibreFiller implements TemplateConstants {
      * @param tableItems array of rows
      * @throws WrappedTargetException
      * @throws IndexOutOfBoundsException
+     * @throws org.stardust.libreoffice.libretempla.TemplateException
      */
     protected void replaceTableTemplate(XComponent xTemplateComponent,
-            com.sun.star.util.XReplaceable xReplaceable,
+            XReplaceable xReplaceable,
             String tableName,
             ArrayList<HashMap> tableItems)
-            throws WrappedTargetException, IndexOutOfBoundsException {
+            throws WrappedTargetException, IndexOutOfBoundsException, TemplateException {
 
         XTextTablesSupplier xTablesSupplier = (XTextTablesSupplier) UnoRuntime.queryInterface(XTextTablesSupplier.class, xTemplateComponent);
         XNameAccess xNamedTables = xTablesSupplier.getTextTables();
@@ -244,7 +244,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 XTableRows xRows = xTable.getRows();
                 XTableColumns xCols = xTable.getColumns();
                 System.out.println("xTable " + xTable + " " + xRows.getCount() + " " + tableItems.size());
-                //  XRow xRow = xRows.getByIndex(1);
+                //XRow xRow = xRows.getByIndex(1);
                 xRows.insertByIndex(2, tableItems.size());
                 XCellRange xCellRange = (XCellRange) UnoRuntime.queryInterface(XCellRange.class, oTable);
                 int row = 2, count = 1;
@@ -279,11 +279,6 @@ public class TemplateLibreFiller implements TemplateConstants {
                                     cellDst = cellDst.replace(testKey, items.get(key.toString()));
                                 }
                             }
-//                    java.util.Set keys = templatePatternDataMap.keySet();
-//                    java.util.Iterator iteratorKeys = keys.iterator();
-//                    while(keyIterator.hasNext()){
-//                    keyIterator.next();  
-                            //xText.setString(tableName + "[" + i + "][" + j + "]");
                         }
                         xText.setString(cellDst);
                     }
@@ -292,7 +287,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 xRows.removeByIndex(1, 1);
             }
         } catch (NoSuchElementException ex) {
-            ex.printStackTrace();
+            throw new TemplateException("No elements for replace", ex);
         }
     }
 
@@ -324,8 +319,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         loadProps[1].Value = Boolean.TRUE;
          */
         // load
-        xDesktop = xDesktop = (XDesktop)UnoRuntime.queryInterface(XDesktop.class, oDesktop);
-           
+        xDesktop = xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, oDesktop);
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
     }
 
@@ -401,9 +395,9 @@ public class TemplateLibreFiller implements TemplateConstants {
             } else {
                 com.sun.star.lang.XComponent xComp = UnoRuntime.queryInterface(
                         com.sun.star.lang.XComponent.class, oDocToStore);
-                xComp.dispose();                
+                xComp.dispose();
             }
-            System.out.println("Document closed!");           
+            System.out.println("Document closed!");
         }
     }
 
