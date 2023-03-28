@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -85,6 +86,10 @@ public class TemplateLibreFiller implements TemplateConstants {
      * OpenOffice UNO remote service manager
      */
     private XMultiComponentFactory mxRemoteServiceManager = null;
+    private ITemplateDataFile mTemplateDataFile;
+    private XDesktop mxDesktop;
+    private XComponent mxTemplateComponent;
+    private boolean mCloseOnExit = true;
 
     /**
      * Main class and main method
@@ -99,6 +104,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println(resourceBundle.getString("welcome"));
 
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
+
         InputStream docTypesInputStream = textDocumentsFiller.getClass().getClassLoader().getResourceAsStream("data/docTypes.json");
         System.out.println(docTypesInputStream);
 
@@ -107,16 +113,16 @@ public class TemplateLibreFiller implements TemplateConstants {
                 TemplateDataFile templateDataFile = new TemplateDataFile(args[0], OUT_FILE_TYPE_SAME);
                 templateDataFile.buildData();
                 System.out.println(templateDataFile);
-                textDocumentsFiller.templateDataFile = templateDataFile;
+                textDocumentsFiller.mTemplateDataFile = templateDataFile;
                 //textDocumentsFiller.templateFieldsDataMap = templateDataFile.createTemplateDataMap();
             } else {
                 TemplateExampleData templateExampleData = new TemplateExampleData();
                 templateExampleData.buildData();
-                textDocumentsFiller.templateDataFile = templateExampleData;
+                textDocumentsFiller.mTemplateDataFile = templateExampleData;
                 System.out.println("Hello TemplateLibreFiller ! " + templateExampleData);
                 //textDocumentsFiller.templateFieldsDataMap = templateExampleData.createTemplateDataMap();
             }
-            textDocumentsFiller.processTemplate(textDocumentsFiller.templateDataFile.getTemplateDocumentFileName());
+            textDocumentsFiller.processTemplate(textDocumentsFiller.mTemplateDataFile.getTemplateDocumentFileName());
 
         } catch (TemplateException | BootstrapException | com.sun.star.uno.Exception | InterruptedException | IOException ex) {
             ex.printStackTrace();
@@ -131,10 +137,16 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println("  Usage:");
         System.out.println("  TemplateLibreFiller <DataFileName>");
     }
-    private ITemplateDataFile templateDataFile;
-    private XDesktop xDesktop;
 
     public TemplateLibreFiller() {
+        Properties params = new Properties();
+        params.setProperty(PARAM_KEY_CLOSEONEXIT, "true");
+    }
+
+    public TemplateLibreFiller(Properties params){
+        if(params.getProperty(PARAM_KEY_CLOSEONEXIT)!=null) {
+            mCloseOnExit = Boolean.parseBoolean(params.getProperty(PARAM_KEY_CLOSEONEXIT));
+        }        
     }
 
     /**
@@ -147,28 +159,24 @@ public class TemplateLibreFiller implements TemplateConstants {
      * @throws com.sun.star.uno.Exception
      * @throws InterruptedException
      */
-    private XComponent xTemplateComponent;
-
     protected void processTemplate(String templateDocumentFileName)
             throws TemplateException, IOException, BootstrapException, com.sun.star.uno.Exception, InterruptedException {
 
-        String templateDocumentFileURL = templateDataFile.getTemplateDocumentFileURL();
+        String templateDocumentFileURL = mTemplateDataFile.getTemplateDocumentFileURL();
         System.out.println("sTemplateFileUrl = " + templateDocumentFileURL);
-        xTemplateComponent = prepareDocComponentFromTemplate(templateDocumentFileURL);
+        mxTemplateComponent = prepareDocComponentFromTemplate(templateDocumentFileURL);
 
         XReplaceable xReplaceable;
         com.sun.star.util.XSearchable xSearchable;
-        HashMap templateFieldsDataMap = templateDataFile.getTemplateDataMap();
+        HashMap templateFieldsDataMap = mTemplateDataFile.getTemplateDataMap();
 
         Iterator keyIterator = templateFieldsDataMap.keySet().iterator();
         //while(keyIterator.hasNext()){
         //    keyIterator.next(); 
         //}
         //Enumeration keys = templateFieldsDataMap.keys();
-        xReplaceable = (XReplaceable) UnoRuntime.queryInterface(
-                XReplaceable.class, xTemplateComponent);
-        xSearchable = UnoRuntime.queryInterface(
-                com.sun.star.util.XSearchable.class, xTemplateComponent);
+        xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, mxTemplateComponent);
+        xSearchable = UnoRuntime.queryInterface(com.sun.star.util.XSearchable.class, mxTemplateComponent);
 
         int curCount = 0;
         //while (keys.hasMoreElements()) {
@@ -184,7 +192,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 }
             } else {
                 if (oval instanceof ArrayList) {
-                    replaceTableTemplate(xTemplateComponent, xReplaceable, key, (ArrayList) oval);
+                    replaceTableTemplate(mxTemplateComponent, xReplaceable, key, (ArrayList) oval);
                 }
             }
         }
@@ -199,8 +207,7 @@ public class TemplateLibreFiller implements TemplateConstants {
      * @param frStr Temlate string like ${user}
      * @param toStr Value string for template like star
      */
-//    protected void replaceWordTemplate(int curCount, XComponent xTemplateComponent, String frStr, String toStr) {
-    protected void replaceWordTemplate(int curCount, com.sun.star.util.XReplaceable xReplaceable, String frStr, String toStr) {
+    protected void replaceWordTemplate(int curCount, XReplaceable xReplaceable, String frStr, String toStr) {
         XReplaceDescriptor xReplaceDescr;
         System.out.println("[" + curCount + "] Replace " + frStr + " -> " + toStr);
         //xReplaceable = (com.sun.star.util.XReplaceable) UnoRuntime.queryInterface(
@@ -319,7 +326,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         loadProps[1].Value = Boolean.TRUE;
          */
         // load
-        xDesktop = xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, oDesktop);
+        mxDesktop = mxDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, oDesktop);
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
     }
 
@@ -361,22 +368,27 @@ public class TemplateLibreFiller implements TemplateConstants {
         return ret;
     }
 
+    /**
+     * Save result document
+     *
+     * @throws CloseVetoException
+     * @throws com.sun.star.io.IOException
+     */
     public void saveOutputDocument() throws CloseVetoException, com.sun.star.io.IOException {
-        String sLoadUrl = templateDataFile.getTemplateDocumentFileURL();
-        String sSaveUrl = templateDataFile.getOutputDocumentFileURL();
+        String sLoadUrl = mTemplateDataFile.getTemplateDocumentFileURL();
+        String sSaveUrl = mTemplateDataFile.getOutputDocumentFileURL();
         //sSaveUrl = "file:////home/devel/repo/my/JODTemplater/res/szablon-ooooo.odt";
         if (sSaveUrl != null) {
             com.sun.star.frame.XStorable oDocToStore
-                    = UnoRuntime.queryInterface(
-                            com.sun.star.frame.XStorable.class,
-                            xTemplateComponent);
+                    = UnoRuntime.queryInterface(com.sun.star.frame.XStorable.class,
+                            mxTemplateComponent);
 
             com.sun.star.beans.PropertyValue[] propertyValues
                     = new com.sun.star.beans.PropertyValue[2];
             propertyValues[0] = new com.sun.star.beans.PropertyValue();
             propertyValues[0].Name = "Overwrite";
             propertyValues[0].Value = Boolean.TRUE;
-            if ("pdf".equals(templateDataFile.getOutputDocumentFileExt())) {
+            if ("pdf".equals(mTemplateDataFile.getOutputDocumentFileExt())) {
                 propertyValues[1] = new com.sun.star.beans.PropertyValue();
                 propertyValues[1].Name = "FilterName";
                 propertyValues[1].Value = "writer_pdf_Export";
@@ -388,16 +400,18 @@ public class TemplateLibreFiller implements TemplateConstants {
             com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
                     oDocToStore);
             // https://wiki.openoffice.org/wiki/Documentation/DevGuide/OfficeDev/Using_the_Desktop            
-            if (xCloseable != null) {
-                xCloseable.close(false);
-                xDesktop.terminate();
-                System.out.println("Desktop.terminate!");
-            } else {
-                com.sun.star.lang.XComponent xComp = UnoRuntime.queryInterface(
-                        com.sun.star.lang.XComponent.class, oDocToStore);
-                xComp.dispose();
+            if (mCloseOnExit) {
+                if (xCloseable != null) {
+                    xCloseable.close(false);
+                    mxDesktop.terminate();
+                    System.out.println("Desktop.terminate!");
+                } else {
+                    com.sun.star.lang.XComponent xComp = UnoRuntime.queryInterface(
+                            com.sun.star.lang.XComponent.class, oDocToStore);
+                    xComp.dispose();
+                }
+                System.out.println("Document closed!");
             }
-            System.out.println("Document closed!");
         }
     }
 
