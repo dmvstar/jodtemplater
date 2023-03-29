@@ -137,13 +137,24 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println("  Usage:");
         System.out.println("  TemplateLibreFiller <DataFileName>");
     }
+    private Properties mParams;
 
+    /**
+     * Default constructor
+     */
     public TemplateLibreFiller() {
         Properties params = new Properties();
         params.setProperty(PARAM_KEY_CLOSEONEXIT, "true");
+        params.setProperty(PARAM_KEY_SHOWTEMP, "true");      
+        this.mParams = params;
     }
-
+    
+    /**
+     * Constructor with params
+     * @param params  
+     */
     public TemplateLibreFiller(Properties params){
+        this.mParams = params;
         if(params.getProperty(PARAM_KEY_CLOSEONEXIT)!=null) {
             mCloseOnExit = Boolean.parseBoolean(params.getProperty(PARAM_KEY_CLOSEONEXIT));
         }        
