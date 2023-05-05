@@ -10,6 +10,7 @@
         {"key": "AGREEMENT.AGREEMENT_DATE", "val" : "22 листопада 2022 р." }, 
         {"key": "AGREEMENT.DATE_FROM", "val" : "22.11.2022" },
         {"key": "AGREEMENT.DATE_TO", "val" : "22.11.2023" },
+        {"key": "AGREEMENT.AGREEMENT_DATE_FROM_YEAR", "val" : "2023" },
         {"key": "AGREEMENT.NUMBER", "val" : "T_3101_AWS_1" },
         {"key": "BANK.ACCOUNT.ACCOUNT_NUMBER",  "val" :"UA80 3808 0500 0000 0026 0057 5409 5" },
         {"key": "BANK.ACCOUNT.BANK_NAME",  "val" :"ПАТ «Укргазбанк», м. Київ" },
