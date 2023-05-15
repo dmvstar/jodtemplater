@@ -91,7 +91,8 @@ public class TemplateLibreFiller implements TemplateConstants {
     private XComponent mxTemplateComponent;
     private boolean mCloseOnExit = true;
     private boolean mTermOnExit = true;
-     
+    private boolean mHiddenMode = true; 
+        
     private Properties mParams;
    
 
@@ -141,7 +142,8 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println("  Usage:");
         System.out.println("  TemplateLibreFiller <DataFileName>");
     }
-  
+
+   
 
     /**
      * Default constructor
@@ -152,7 +154,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         params.setProperty(PARAM_KEY_TERMONEXIT, "true");
         params.setProperty(PARAM_KEY_SHOWTEMP, "true");      
         this.mParams = params;
-        this.mCloseOnExit = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_CLOSEONEXIT));
+        parceParams();        
     }
     
     /**
@@ -161,11 +163,21 @@ public class TemplateLibreFiller implements TemplateConstants {
      */
     public TemplateLibreFiller(Properties params){
         this.mParams = params;
-        if(params.getProperty(PARAM_KEY_CLOSEONEXIT)!=null) {
-            mCloseOnExit = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_CLOSEONEXIT));
-        }        
+        parceParams();               
     }
 
+    private void parceParams() {
+        if(mParams.getProperty(PARAM_KEY_CLOSEONEXIT)!=null) {
+            this.mCloseOnExit = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_CLOSEONEXIT));
+        }
+        if(mParams.getProperty(PARAM_KEY_TERMONEXIT)!=null) {
+            this.mTermOnExit  = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_TERMONEXIT));
+        }
+        if(mParams.getProperty(PARAM_KEY_HIDEMODE)!=null) {
+            this.mHiddenMode  = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_HIDEMODE));
+        }
+    }
+    
     /**
      * Run process template fill
      *
@@ -338,10 +350,11 @@ public class TemplateLibreFiller implements TemplateConstants {
         loadProps[0].Name = "AsTemplate";
         loadProps[0].Value = Boolean.TRUE;
         
-        loadProps[1] = new PropertyValue();
-        loadProps[1].Name = "Hidden";
-        loadProps[1].Value = Boolean.TRUE;
-        
+        if(mHiddenMode) {
+            loadProps[1] = new PropertyValue();
+            loadProps[1].Name = "Hidden";
+            loadProps[1].Value = Boolean.TRUE;
+        }
         // load
         mxDesktop = mxDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, oDesktop);
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
