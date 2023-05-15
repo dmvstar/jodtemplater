@@ -90,9 +90,10 @@ public class TemplateLibreFiller implements TemplateConstants {
     private XDesktop mxDesktop;
     private XComponent mxTemplateComponent;
     private boolean mCloseOnExit = true;
-    
-    private Properties mParams;
     private boolean mTermOnExit = true;
+     
+    private Properties mParams;
+   
 
     /**
      * Main class and main method
@@ -336,11 +337,11 @@ public class TemplateLibreFiller implements TemplateConstants {
         loadProps[0] = new PropertyValue();
         loadProps[0].Name = "AsTemplate";
         loadProps[0].Value = Boolean.TRUE;
-        /*
-        loadProps[1] = new com.sun.star.beans.PropertyValue();
+        
+        loadProps[1] = new PropertyValue();
         loadProps[1].Name = "Hidden";
         loadProps[1].Value = Boolean.TRUE;
-         */
+        
         // load
         mxDesktop = mxDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, oDesktop);
         return xComponentLoader.loadComponentFromURL(loadUrl, "_blank", 0, loadProps);
