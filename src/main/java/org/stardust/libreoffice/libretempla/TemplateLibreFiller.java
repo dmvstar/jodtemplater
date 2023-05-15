@@ -90,6 +90,9 @@ public class TemplateLibreFiller implements TemplateConstants {
     private XDesktop mxDesktop;
     private XComponent mxTemplateComponent;
     private boolean mCloseOnExit = true;
+    
+    private Properties mParams;
+    private boolean mTermOnExit = true;
 
     /**
      * Main class and main method
@@ -137,7 +140,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println("  Usage:");
         System.out.println("  TemplateLibreFiller <DataFileName>");
     }
-    private Properties mParams;
+  
 
     /**
      * Default constructor
@@ -145,8 +148,10 @@ public class TemplateLibreFiller implements TemplateConstants {
     public TemplateLibreFiller() {
         Properties params = new Properties();
         params.setProperty(PARAM_KEY_CLOSEONEXIT, "true");
+        params.setProperty(PARAM_KEY_TERMONEXIT, "true");
         params.setProperty(PARAM_KEY_SHOWTEMP, "true");      
         this.mParams = params;
+        this.mCloseOnExit = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_CLOSEONEXIT));
     }
     
     /**
@@ -156,7 +161,7 @@ public class TemplateLibreFiller implements TemplateConstants {
     public TemplateLibreFiller(Properties params){
         this.mParams = params;
         if(params.getProperty(PARAM_KEY_CLOSEONEXIT)!=null) {
-            mCloseOnExit = Boolean.parseBoolean(params.getProperty(PARAM_KEY_CLOSEONEXIT));
+            mCloseOnExit = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_CLOSEONEXIT));
         }        
     }
 
@@ -404,17 +409,23 @@ public class TemplateLibreFiller implements TemplateConstants {
                 propertyValues[1].Name = "FilterName";
                 propertyValues[1].Value = "writer_pdf_Export";
             }
-            System.out.println("\nDocument: \"" + sLoadUrl + "\"\nSaved As: \""
-                    + sSaveUrl + "\"\n");
+            String message = String.format("CloseOnExit=%b \nDocument: %s\naved As:", mCloseOnExit,sLoadUrl,sSaveUrl);
+            //System.out.println("\nDocument: \"" + sLoadUrl + "\"\nSaved As: \""
+            //        + sSaveUrl + "\"\n");
+            System.out.println(message);
             //oDocToStore.storeAsURL(sSaveUrl, propertyValue);
             oDocToStore.storeToURL(sSaveUrl, propertyValues);
-            com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
-                    oDocToStore);
+            
             // https://wiki.openoffice.org/wiki/Documentation/DevGuide/OfficeDev/Using_the_Desktop            
             if (mCloseOnExit) {
+                com.sun.star.util.XCloseable xCloseable = UnoRuntime.queryInterface(com.sun.star.util.XCloseable.class,
+                    oDocToStore);
                 if (xCloseable != null) {
                     xCloseable.close(false);
-                    mxDesktop.terminate();
+                    if(mTermOnExit) {
+                        mxDesktop.terminate();
+                    }
+                            
                     System.out.println("Desktop.terminate!");
                 } else {
                     com.sun.star.lang.XComponent xComp = UnoRuntime.queryInterface(
