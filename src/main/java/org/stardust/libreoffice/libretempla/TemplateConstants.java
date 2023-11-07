@@ -42,6 +42,7 @@ public interface TemplateConstants {
     public static final String TEMPLATE_DATA_HEADER = "header";
     public static final String DATA_KEY = "key";
     public static final String DATA_VAL = "val";
+    public static final String DATA_PARAMS  = "params";
     
     public static final String PARAM_KEY_CLOSEONEXIT = "CloseOnExit";
     public static final String PARAM_KEY_TERMONEXIT = "TerminateOnExit";

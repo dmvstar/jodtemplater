@@ -3,7 +3,7 @@
  *  $Id: TemplateDocumentFiller.java, v 0.0.2 2007/10/02 17:20    sdv Exp $
  *  $Id: TemplateLibreFiller.java,    v 0.0.1 2023-03-07 15:05:22 sdv Exp $
  *
- *  Copyright (C) 2006-2007 Dmitry Starzhynski
+ *  Copyright (C) 2006-2007 Dmitri Starzhynski
  *  Copyright (C) 2023 Dmitri Starzyński
  *
  *  File :               TemplateDocumentFiller.java
@@ -89,9 +89,9 @@ public class TemplateLibreFiller implements TemplateConstants {
     private ITemplateDataFile mTemplateDataFile;
     private XDesktop mxDesktop;
     private XComponent mxTemplateComponent;
-    private boolean mCloseOnExit = true;
-    private boolean mTermOnExit = true;
-    private boolean mHiddenMode = true; 
+    private boolean mCloseOnExit = false;
+    private boolean mTermOnExit  = false;
+    private boolean mHiddenMode  = false; 
         
     private Properties mParams;
    
@@ -150,9 +150,9 @@ public class TemplateLibreFiller implements TemplateConstants {
      */
     public TemplateLibreFiller() {
         Properties params = new Properties();
-        params.setProperty(PARAM_KEY_CLOSEONEXIT, "true");
-        params.setProperty(PARAM_KEY_TERMONEXIT, "true");
-        params.setProperty(PARAM_KEY_SHOWTEMP, "true");      
+        params.setProperty(PARAM_KEY_CLOSEONEXIT, "false");
+        params.setProperty(PARAM_KEY_TERMONEXIT, "false");
+        params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
         this.mParams = params;
         parceParams();        
     }
@@ -271,7 +271,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         XTextTablesSupplier xTablesSupplier = (XTextTablesSupplier) UnoRuntime.queryInterface(XTextTablesSupplier.class, xTemplateComponent);
         XNameAccess xNamedTables = xTablesSupplier.getTextTables();
         //System.out.println("xNamedTables " + xNamedTables);
-        System.out.println("replaceTableTemplate  " + tableName + "[" + tableItems.size() + "]");
+        System.out.println("replaceTableTemplate  " + tableName + " src_count:[" + tableItems.size() + "]");
         try {
             Object oTable = xNamedTables.getByName(tableName);
             if (oTable != null) {
@@ -279,7 +279,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 XTextTable xTable = (XTextTable) UnoRuntime.queryInterface(XTextTable.class, oTable);
                 XTableRows xRows = xTable.getRows();
                 XTableColumns xCols = xTable.getColumns();
-                System.out.println("xTable " + xTable + " " + xRows.getCount() + " " + tableItems.size());
+                System.out.println("xTable " + xTable + " rows:" + xRows.getCount() + " cols:" + xCols.getCount());
                 //XRow xRow = xRows.getByIndex(1);
                 xRows.insertByIndex(2, tableItems.size());
                 XCellRange xCellRange = (XCellRange) UnoRuntime.queryInterface(XCellRange.class, oTable);

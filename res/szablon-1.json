@@ -2,7 +2,8 @@
     "templateFile": "res/szablon-1.odt",
     "outputDocType": "pdf",
     "outputExt":  "pdf",
-    "data" : [       
+    "data" : [               
+        {"key": "OWNER.CONTRACTOR.NAME",  "val" : "ПАТ «ПОСТАЧАЛЬНИК»" },
         {"key": "AGENT.POSITION",  "val" : "Директор" },
         {"key": "AGENT.DESCRIPTION",  "val" :"Статуту" },
         {"key": "AGENT.LAST_NAME",  "val" :"Сидола П.С." },
@@ -23,7 +24,7 @@
         {"key": "CONTRACTOR.NIP_NATIONAL",  "val" :"386783304631" },
         {"key": "SETTLEMENT_PRICE.PRICE_VALUE",  "val" :"9.45" },
         {"key": "CONTRACTOR.VAT_PAYER_CERTIFICATE_NUMBER",  "val" :"3322332233" },   
-        {"key": "ppes", "header" : 1,"val" : [
+        {"key": "ppes", "params" : {"header" : 1}, "val" : [
                 [{"key":"CODE",     "val" : "34FR4432334566"},
                  {"key":"GROUP",    "val" : "A"},
                  {"key":"VOLUME",   "val" : "100"}],
@@ -37,7 +38,7 @@
                  {"key":"GROUP",    "val" : "B"},
                  {"key":"VOLUME",   "val" : "200"}]        
         ]},
-        {"key": "payments", "header" : 0,"val" : [
+        {"key": "payments", "params" : {"header" : 0}, "val" : [
                 [{"key":"SETTLEMENT_DIVISION.CONSUMPTION_PERCENT",  "val" : "35%"},
                  {"key":"SETTLEMENT_DIVISION.SETTLEMENT_PAYMENT_TERM",  "val" : "місяця, що передує розрахунковому період"},
                  {"key":"SETTLEMENT_DIVISION.SETTLEMENT_DAYS",     "val" : "5"}],
@@ -47,6 +48,40 @@
                 [{"key":"SETTLEMENT_DIVISION.CONSUMPTION_PERCENT",  "val" : "30%"},
                  {"key":"SETTLEMENT_DIVISION.SETTLEMENT_PAYMENT_TERM",  "val" : "розрахункового періоду"},
                  {"key":"SETTLEMENT_DIVISION.SETTLEMENT_DAYS",     "val" : "25"}]
+        ]},
+        {"key": "prognoza", "params" : {"header" : 0},"val" : [
+                [{"key":"AGREEMENT_POINT.GROUP_OF_RECIPIENTS",  "val" : "A"},
+                 {"key":"MEASURING_POINT.POINT_NAME",  "val" : "PPE Address 1"},
+                 {"key":"m01",     "val" : "5"},
+                 {"key":"m02",     "val" : "5"},
+                 {"key":"m03",     "val" : "6"},
+                 {"key":"m04",     "val" : "5"},
+                 {"key":"m05",     "val" : "8"},
+                 {"key":"m06",     "val" : "5"},
+                 {"key":"m07",     "val" : "3"},
+                 {"key":"m08",     "val" : "5"},
+                 {"key":"m09",     "val" : "6"},
+                 {"key":"m10",     "val" : "5"},
+                 {"key":"m11",     "val" : "9"},
+                 {"key":"m12",     "val" : "5"},
+                 {"key":"year",    "val" : "67"}                 
+             ],
+             [{"key":"AGREEMENT_POINT.GROUP_OF_RECIPIENTS",  "val" : "A"},
+                 {"key":"MEASURING_POINT.POINT_NAME",  "val" : "PPE Address 2"},
+                 {"key":"m01",     "val" : "5"},
+                 {"key":"m02",     "val" : "5"},
+                 {"key":"m03",     "val" : "6"},
+                 {"key":"m04",     "val" : "5"},
+                 {"key":"m05",     "val" : "8"},
+                 {"key":"m06",     "val" : "5"},
+                 {"key":"m07",     "val" : "3"},
+                 {"key":"m08",     "val" : "5"},
+                 {"key":"m09",     "val" : "6"},
+                 {"key":"m10",     "val" : "5"},
+                 {"key":"m11",     "val" : "9"},
+                 {"key":"m12",     "val" : "5"},
+                 {"key":"year",    "val" : "67"}                 
+             ]
         ]}
     ]
 }

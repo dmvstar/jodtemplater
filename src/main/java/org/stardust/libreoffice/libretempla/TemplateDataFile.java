@@ -198,9 +198,16 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             for (int i = 0; i < data.length(); i++) {
                 //Iterator<?> keys = data.getJSONObject(i).keys();
                 JSONObject itemj = data.getJSONObject(i);
-                //System.out.println("    Item: " + itemj);
+            System.out.println("    Item: " + itemj);
                 String key = itemj.getString(DATA_KEY);
                 Object val = itemj.get(DATA_VAL);
+                Object params = null;
+                try {
+                    params = itemj.get(DATA_PARAMS);
+            System.out.println("        Item.params: " + params);
+                } catch (JSONException ex) {
+                    
+                } 
                 //System.out.println("        Key: " + key);
                 //System.out.println("        Class: " + val.getClass());
                 //System.out.println("        Value: " + val);
