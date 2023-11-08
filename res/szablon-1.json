@@ -4,6 +4,7 @@
     "outputExt":  "pdf",
     "data" : [               
         {"key": "OWNER.CONTRACTOR.NAME",  "val" : "ПАТ «ПОСТАЧАЛЬНИК»" },
+        {"key": "AGREEMENT.PLACE",  "val" : "м. Місто" },
         {"key": "AGENT.POSITION",  "val" : "Директор" },
         {"key": "AGENT.DESCRIPTION",  "val" :"Статуту" },
         {"key": "AGENT.LAST_NAME",  "val" :"Сидола П.С." },
