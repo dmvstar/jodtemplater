@@ -11,11 +11,7 @@
             </goals>
             <properties>
                 <exec.vmArgs></exec.vmArgs>
-<<<<<<< HEAD
                 <exec.args>${exec.vmArgs} -classpath %classpath;"C:/Program Files/LibreOffice/program" ${exec.mainClass} ${exec.appArgs}</exec.args>
-=======
-                <exec.args>${exec.vmArgs} -classpath %classpath:/usr/lib/libreoffice/program: ${exec.mainClass} ${exec.appArgs}</exec.args>                    
->>>>>>> c6ac052c601369455edce9fa68e7700513c0dfab
                 <exec.appArgs>res/szablon-1.json</exec.appArgs>
                 <exec.mainClass>org.stardust.libreoffice.libretempla.TemplateLibreFiller</exec.mainClass>
                 <exec.executable>java</exec.executable>
