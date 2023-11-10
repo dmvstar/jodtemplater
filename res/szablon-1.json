@@ -3,6 +3,7 @@
     "outputDocType": "pdf",
     "outputExt":  "pdf",
     "data" : [               
+        {"key": "NOW", "val" : "NOW()"},
         {"key": "OWNER.CONTRACTOR.NAME",  "val" : "ПАТ «ПОСТАЧАЛЬНИК»" },
         {"key": "AGREEMENT.PLACE",  "val" : "м. Місто" },
         {"key": "AGENT.POSITION",  "val" : "Директор" },

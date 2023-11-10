@@ -286,37 +286,39 @@ public class TemplateLibreFiller implements TemplateConstants {
                 int row = 2, count = 1;
                 System.out.println("tableItems " + tableItems.size());
                 for (int i = 0; i < tableItems.size(); i++) { // data
-                    //System.out.println("items " + i);
+                    System.out.println("r["+i+"] process row");
                     // data item    
                     //Object items = tableItems.get(i);   
                     //System.out.println("items " + items.getClass());
                     //System.out.println("items " + items);
                     HashMap<String, String> items = tableItems.get(i);
                     Object keys[] = items.keySet().toArray();
+                    
                     for (int j = 0; j < xCols.getCount(); j++) { // cols           
                         XCell xCellTemp = xCellRange.getCellByPosition(j, 1);
                         XText xTextTemp = (XText) UnoRuntime.queryInterface(XText.class, xCellTemp);
                         XCell xCell = xCellRange.getCellByPosition(j, i + row);
-                        XText xText = (XText) UnoRuntime.queryInterface(XText.class, xCell);
-
-                        String cellDst = xTextTemp.getString();
+                        XText xText = (XText) UnoRuntime.queryInterface(XText.class, xCell);                        
+                        String cellDstText = xTextTemp.getString();                        
+                    System.out.println("    r[" + i + "]c["+ j +"] cellDst=" + cellDstText);
                         if (xTextTemp.getString().equalsIgnoreCase("#{i}")) {
-                            cellDst = "" + count;
+                            cellDstText = "" + count;
                         } else {
                             // for (int k = 0; k < keys.length; k++) { // keys
                             for (Object key : keys) {
                                 // keys
-                                String testKey = "#{" + key + "}";
-                                System.out.println("    [" + i + "] " + testKey + " -> " + items.get(key.toString()));
-                                if (xTextTemp.getString().equalsIgnoreCase(testKey)) {
-                                    cellDst = items.get(key.toString());
+                                String keyToReplace = "#{" + key + "}";
+                                String valToReplace = items.get(key.toString());
+                                if (cellDstText.equalsIgnoreCase(keyToReplace)) {
+                                    System.out.println("    r[" + i + "]c["+ j +"] " + keyToReplace + " -> " + valToReplace);
+                                    cellDstText = items.get(key.toString());
                                 }
-                                if (xTextTemp.getString().contains(testKey)) {
-                                    cellDst = cellDst.replace(testKey, items.get(key.toString()));
+                                if (cellDstText.contains(keyToReplace)) {
+                                    cellDstText = cellDstText.replace(keyToReplace, items.get(key.toString()));
                                 }
-                            }
+                            }                            
                         }
-                        xText.setString(cellDst);
+                        xText.setString(cellDstText);
                     }
                     count++;
                 }
