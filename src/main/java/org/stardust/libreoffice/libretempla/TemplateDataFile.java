@@ -365,6 +365,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         params.setProperty(PARAM_KEY_TERMONEXIT, "false");
         params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
         String propValue;
+        
         JSONObject json = getTemplateDataJson();
         propValue = getSafeJsonValue(json,PARAM_KEY_CLOSEONEXIT);
         if( propValue != null) {
@@ -384,13 +385,15 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
     String getSafeJsonValue(JSONObject json, String key){
         String ret = null;
         try {
-            ret = json.getString(PARAM_KEY_CLOSEONEXIT);
+            ret = json.getString(key);
         } catch (JSONException ex) {
+            ret = null;
         }
         return ret;
     }
 
-    Properties getTemplateParams() {
+    @Override
+    public Properties getTemplateParams() {
         return templateParams;
     }
 

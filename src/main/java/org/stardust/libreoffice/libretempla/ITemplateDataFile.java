@@ -31,6 +31,7 @@
 package org.stardust.libreoffice.libretempla;
 
 import java.util.HashMap;
+import java.util.Properties;
 
 public interface ITemplateDataFile {
 
@@ -58,4 +59,6 @@ public interface ITemplateDataFile {
     public String getTemplateDocumentFileName();
 
     public String getTemplateDocumentFileURL();
+    
+    public Properties getTemplateParams();
 }

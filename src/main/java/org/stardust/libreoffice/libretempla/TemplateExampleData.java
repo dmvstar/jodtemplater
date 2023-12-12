@@ -35,8 +35,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.stardust.libreoffice.libretempla.TemplateConstants.PARAM_KEY_CLOSEONEXIT;
+import static org.stardust.libreoffice.libretempla.TemplateConstants.PARAM_KEY_SHOWTEMP;
+import static org.stardust.libreoffice.libretempla.TemplateConstants.PARAM_KEY_TERMONEXIT;
 
 public class TemplateExampleData implements ITemplateDataFile {
 
@@ -44,6 +48,7 @@ public class TemplateExampleData implements ITemplateDataFile {
     public static String templateOutName = "res/szablon-0-out.odt";
     private String templateDocumentFileURL;
     private HashMap<String, Object> templateDataMap;
+    private Properties params;
 
     @Override
     public void buildData() throws TemplateException {
@@ -151,6 +156,14 @@ public class TemplateExampleData implements ITemplateDataFile {
     public String getOutputDocumentFileExt() {
         String ret = "pdf";
         return ret;
+    }
+
+    @Override
+    public Properties getTemplateParams() {
+        params.setProperty(PARAM_KEY_CLOSEONEXIT, "false");
+        params.setProperty(PARAM_KEY_TERMONEXIT, "false");
+        params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
+        return params;
     }
 
 }

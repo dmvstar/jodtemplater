@@ -110,8 +110,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println(resourceBundle.getString("welcome"));
 
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
-        System.out.println(textDocumentsFiller.mCloseOnExit);
-
+        
         InputStream docTypesInputStream = textDocumentsFiller.getClass().getClassLoader().getResourceAsStream("data/docTypes.json");
         System.out.println(docTypesInputStream);
 
@@ -122,11 +121,14 @@ public class TemplateLibreFiller implements TemplateConstants {
                 System.out.println(templateDataFile);
                 textDocumentsFiller.mTemplateDataFile = templateDataFile;
                 textDocumentsFiller.mParams = templateDataFile.getTemplateParams();
+                textDocumentsFiller.parseParams();
                 //textDocumentsFiller.templateFieldsDataMap = templateDataFile.createTemplateDataMap();
             } else {
                 TemplateExampleData templateExampleData = new TemplateExampleData();
                 templateExampleData.buildData();
                 textDocumentsFiller.mTemplateDataFile = templateExampleData;
+                textDocumentsFiller.mParams = templateExampleData.getTemplateParams();
+                textDocumentsFiller.parseParams();
                 System.out.println("Hello TemplateLibreFiller ! " + templateExampleData);
                 //textDocumentsFiller.templateFieldsDataMap = templateExampleData.createTemplateDataMap();
             }
@@ -152,12 +154,7 @@ public class TemplateLibreFiller implements TemplateConstants {
      * Default constructor
      */
     public TemplateLibreFiller() {
-        Properties params = new Properties();
-        params.setProperty(PARAM_KEY_CLOSEONEXIT, "false");
-        params.setProperty(PARAM_KEY_TERMONEXIT, "false");
-        params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
-        this.mParams = params;
-        parseParams();        
+        
     }
     
     /**
@@ -166,9 +163,8 @@ public class TemplateLibreFiller implements TemplateConstants {
      */
     public TemplateLibreFiller(Properties params){
         this.mParams = params;
-        parseParams();               
     }
-
+        
     private void parseParams() {
         String propValue;
         propValue = mParams.getProperty(PARAM_KEY_CLOSEONEXIT);
@@ -197,6 +193,7 @@ public class TemplateLibreFiller implements TemplateConstants {
             throws TemplateException, IOException, BootstrapException, com.sun.star.uno.Exception, InterruptedException {
 
         String templateDocumentFileURL = mTemplateDataFile.getTemplateDocumentFileURL();
+        System.out.println("mTemplateParams = " + mParams);
         System.out.println("sTemplateFileUrl = " + templateDocumentFileURL);
         mxTemplateComponent = prepareDocComponentFromTemplate(templateDocumentFileURL);
 
