@@ -2,7 +2,7 @@
     "templateFile": "res/szablon-1.odt",
     "outputDocType": "pdf",
     "outputExt":  "pdf",
-    "CloseOnExit" : "false",
+    "CloseOnExit" : "true",
     "data" : [               
         {"key": "NOW", "val" : "NOW()"},
         {"key": "OWNER.CONTRACTOR.NAME",  "val" : "ПАТ «ПОСТАЧАЛЬНИК»" },
