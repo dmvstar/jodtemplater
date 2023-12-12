@@ -46,7 +46,7 @@ public interface TemplateConstants {
     
     public static final String PARAM_KEY_CLOSEONEXIT = "CloseOnExit";
     public static final String PARAM_KEY_TERMONEXIT = "TerminateOnExit";
-    public static final String PARAM_KEY_SHOWTEMP = "SnowTemplate";
+    public static final String PARAM_KEY_SHOWTEMP = "ShowTemplate";
     public static final String PARAM_KEY_HIDEMODE = "HideMode";
 
     public static final int OUT_FILE_TYPE_SAME = 0;

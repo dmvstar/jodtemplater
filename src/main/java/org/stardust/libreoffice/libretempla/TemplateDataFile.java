@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +65,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
     private String templateDocumentFileURL;
     private String outputDocumentFileName;
     private final int outputDocumentFileType;
+    private Properties templateParams;    
     private HashMap<String, Object> templateDataMap;
     private String outputDocumentFileExt;
 
@@ -86,6 +88,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             templateDataString = contentBuilder.toString();
             if (getTemplateDataString() != null) {
                 templateDataJson = prepareTemplateDataJson(getTemplateDataString());
+                templateParams = prepareParams();
                 templateDocumentFileName = prepareTemplateName();
                 outputDocumentFileExt  = prepareOutputDocumentFileExt();
                 outputDocumentFileName = prepareOutputDocumentFileName();                
@@ -351,6 +354,34 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
     @Override
     public String getOutputDocumentFileExt() {        
         return outputDocumentFileExt;
+    }
+
+    private Properties prepareParams() throws TemplateException {
+        Properties params = new Properties();
+        if (getTemplateDataJson() == null) {
+            throw new TemplateException("Not defined template data file.");
+        }
+        params.setProperty(PARAM_KEY_CLOSEONEXIT, "false");
+        params.setProperty(PARAM_KEY_TERMONEXIT, "false");
+        params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
+        String propValue;
+        propValue = getTemplateDataJson().getString(PARAM_KEY_CLOSEONEXIT);
+        if( propValue != null) {
+            params.setProperty(PARAM_KEY_CLOSEONEXIT, propValue);
+        }
+        propValue = getTemplateDataJson().getString(PARAM_KEY_TERMONEXIT);
+        if( propValue != null) {
+            params.setProperty(PARAM_KEY_TERMONEXIT, propValue);
+        }
+        propValue = getTemplateDataJson().getString(PARAM_KEY_SHOWTEMP);
+        if( propValue != null) {
+            params.setProperty(PARAM_KEY_SHOWTEMP, propValue);
+        }
+        return params;
+    }
+
+    Properties getTemplateParams() {
+        return templateParams;
     }
 
 }

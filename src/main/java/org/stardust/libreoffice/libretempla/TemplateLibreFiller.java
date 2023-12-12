@@ -90,9 +90,9 @@ public class TemplateLibreFiller implements TemplateConstants {
     private XDesktop mxDesktop;
     private XComponent mxTemplateComponent;
     
-    private boolean mCloseOnExit = true;
-    private boolean mTermOnExit  = true;
-    private boolean mHiddenMode  = true; 
+    private boolean mCloseOnExit = false;
+    private boolean mTermOnExit  = false;
+    private boolean mHiddenMode  = false; 
         
     private Properties mParams;
    
@@ -121,6 +121,7 @@ public class TemplateLibreFiller implements TemplateConstants {
                 templateDataFile.buildData();
                 System.out.println(templateDataFile);
                 textDocumentsFiller.mTemplateDataFile = templateDataFile;
+                textDocumentsFiller.mParams = templateDataFile.getTemplateParams();
                 //textDocumentsFiller.templateFieldsDataMap = templateDataFile.createTemplateDataMap();
             } else {
                 TemplateExampleData templateExampleData = new TemplateExampleData();
@@ -156,7 +157,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         params.setProperty(PARAM_KEY_TERMONEXIT, "false");
         params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
         this.mParams = params;
-        parceParams();        
+        parseParams();        
     }
     
     /**
@@ -165,10 +166,10 @@ public class TemplateLibreFiller implements TemplateConstants {
      */
     public TemplateLibreFiller(Properties params){
         this.mParams = params;
-        parceParams();               
+        parseParams();               
     }
 
-    private void parceParams() {
+    private void parseParams() {
         String propValue;
         propValue = mParams.getProperty(PARAM_KEY_CLOSEONEXIT);
         if(propValue!=null) {            
