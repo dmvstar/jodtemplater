@@ -332,10 +332,11 @@ public class UUEncoDeco {
             ex.printStackTrace();
         } catch (CoderException ex) {
             ex.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("UUDecode: " + e);
-        }
+        } 
+        //catch (IOException e) {
+        //    e.printStackTrace();
+        //    System.err.println("UUDecode: " + e);
+        //}
         
     }
     

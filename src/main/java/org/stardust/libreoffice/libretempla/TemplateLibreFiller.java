@@ -89,9 +89,10 @@ public class TemplateLibreFiller implements TemplateConstants {
     private ITemplateDataFile mTemplateDataFile;
     private XDesktop mxDesktop;
     private XComponent mxTemplateComponent;
-    private boolean mCloseOnExit = false;
-    private boolean mTermOnExit  = false;
-    private boolean mHiddenMode  = false; 
+    
+    private boolean mCloseOnExit = true;
+    private boolean mTermOnExit  = true;
+    private boolean mHiddenMode  = true; 
         
     private Properties mParams;
    
@@ -109,6 +110,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         System.out.println(resourceBundle.getString("welcome"));
 
         TemplateLibreFiller textDocumentsFiller = new TemplateLibreFiller();
+        System.out.println(textDocumentsFiller.mCloseOnExit);
 
         InputStream docTypesInputStream = textDocumentsFiller.getClass().getClassLoader().getResourceAsStream("data/docTypes.json");
         System.out.println(docTypesInputStream);
@@ -167,8 +169,10 @@ public class TemplateLibreFiller implements TemplateConstants {
     }
 
     private void parceParams() {
-        if(mParams.getProperty(PARAM_KEY_CLOSEONEXIT)!=null) {
-            this.mCloseOnExit = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_CLOSEONEXIT));
+        String propValue;
+        propValue = mParams.getProperty(PARAM_KEY_CLOSEONEXIT);
+        if(propValue!=null) {            
+            this.mCloseOnExit = Boolean.parseBoolean(propValue);
         }
         if(mParams.getProperty(PARAM_KEY_TERMONEXIT)!=null) {
             this.mTermOnExit  = Boolean.parseBoolean(mParams.getProperty(PARAM_KEY_TERMONEXIT));

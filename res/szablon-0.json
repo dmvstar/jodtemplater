@@ -1,7 +1,8 @@
 {
     "templateFile": "res/szablon-0.odt",
     "outputDocType": "lo",
-    "outputExt1": "pdf",
+    "outputExt": "pdf",
+    "CloseOnExit" : "true",
     "data" : [
         {"key":"Model", "val" : "Mercedes"},
         {"key":"Rok", "val" : "2023"},
