@@ -50,6 +50,40 @@
                 [{"key":"SETTLEMENT_DIVISION.CONSUMPTION_PERCENT",  "val" : "30%"},
                  {"key":"SETTLEMENT_DIVISION.SETTLEMENT_PAYMENT_TERM",  "val" : "розрахункового періоду"},
                  {"key":"SETTLEMENT_DIVISION.SETTLEMENT_DAYS",     "val" : "25"}]
+        ]},
+        {"key": "prognoza", "params" : {"header" : 0},"val" : [
+                [{"key":"AGREEMENT_POINT.GROUP_OF_RECIPIENTS",  "val" : "A"},
+                 {"key":"MEASURING_POINT.POINT_NAME",  "val" : "PPE Address 1"},
+                 {"key":"m01",     "val" : "5"},
+                 {"key":"m02",     "val" : "5"},
+                 {"key":"m03",     "val" : "6"},
+                 {"key":"m04",     "val" : "5"},
+                 {"key":"m05",     "val" : "8"},
+                 {"key":"m06",     "val" : "5"},
+                 {"key":"m07",     "val" : "3"},
+                 {"key":"m08",     "val" : "5"},
+                 {"key":"m09",     "val" : "6"},
+                 {"key":"m10",     "val" : "5"},
+                 {"key":"m11",     "val" : "9"},
+                 {"key":"m12",     "val" : "5"},
+                 {"key":"year",    "val" : "67"}                 
+             ],
+             [{"key":"AGREEMENT_POINT.GROUP_OF_RECIPIENTS",  "val" : "A"},
+                 {"key":"MEASURING_POINT.POINT_NAME",  "val" : "PPE Address 2"},
+                 {"key":"m01",     "val" : "5"},
+                 {"key":"m02",     "val" : "5"},
+                 {"key":"m03",     "val" : "6"},
+                 {"key":"m04",     "val" : "5"},
+                 {"key":"m05",     "val" : "8"},
+                 {"key":"m06",     "val" : "5"},
+                 {"key":"m07",     "val" : "3"},
+                 {"key":"m08",     "val" : "5"},
+                 {"key":"m09",     "val" : "6"},
+                 {"key":"m10",     "val" : "5"},
+                 {"key":"m11",     "val" : "9"},
+                 {"key":"m12",     "val" : "5"},
+                 {"key":"year",    "val" : "67"}                 
+             ]
         ]}
     ]
 }
