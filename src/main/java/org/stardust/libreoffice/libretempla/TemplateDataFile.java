@@ -365,19 +365,29 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         params.setProperty(PARAM_KEY_TERMONEXIT, "false");
         params.setProperty(PARAM_KEY_SHOWTEMP, "false");      
         String propValue;
-        propValue = getTemplateDataJson().getString(PARAM_KEY_CLOSEONEXIT);
+        JSONObject json = getTemplateDataJson();
+        propValue = getSafeJsonValue(json,PARAM_KEY_CLOSEONEXIT);
         if( propValue != null) {
             params.setProperty(PARAM_KEY_CLOSEONEXIT, propValue);
         }
-        propValue = getTemplateDataJson().getString(PARAM_KEY_TERMONEXIT);
+        propValue = getSafeJsonValue(json,PARAM_KEY_TERMONEXIT);
         if( propValue != null) {
             params.setProperty(PARAM_KEY_TERMONEXIT, propValue);
         }
-        propValue = getTemplateDataJson().getString(PARAM_KEY_SHOWTEMP);
+        propValue = getSafeJsonValue(json,PARAM_KEY_SHOWTEMP);
         if( propValue != null) {
             params.setProperty(PARAM_KEY_SHOWTEMP, propValue);
         }
         return params;
+    }
+    
+    String getSafeJsonValue(JSONObject json, String key){
+        String ret = null;
+        try {
+            ret = json.getString(PARAM_KEY_CLOSEONEXIT);
+        } catch (JSONException ex) {
+        }
+        return ret;
     }
 
     Properties getTemplateParams() {
