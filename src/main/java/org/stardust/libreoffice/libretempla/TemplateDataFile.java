@@ -5,7 +5,7 @@
  *  Copyright (C) 2023 Dmitri Starzyński
  *
  *  File :               TemplateDataFile.java
- *  Description :        Example data file parcer
+ *  Description :        Data file parser
  *  Author's email :     dmvstar.devel@gmail.com
  *  Author's Website :
  *
