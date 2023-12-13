@@ -33,7 +33,10 @@
  *
  */
 package org.stardust.libreoffice.libretempla;
-
+/**
+ * https://api.libreoffice.org/
+ * https://wiki.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide
+ */
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
