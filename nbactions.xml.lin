@@ -28,7 +28,7 @@
             </goals>
             <properties>
                 <exec.vmArgs>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address}</exec.vmArgs>
-                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.args>${exec.vmArgs} -classpath %classpath:/usr/lib/libreoffice/program: ${exec.mainClass} ${exec.appArgs}</exec.args>
                 <exec.appArgs>res/szablon-1.json</exec.appArgs>
                 <exec.mainClass>org.stardust.libreoffice.libretempla.TemplateLibreFiller</exec.mainClass>
                 <exec.executable>java</exec.executable>
