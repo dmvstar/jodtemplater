@@ -56,43 +56,43 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
     /**
      * File with data for fill
      */
-    private final String dataFileName;
-    private Path dataFilePath;
+    private final String mDataFileName;
+    private Path mDataFilePath;
 
-    private String templateDataString;
-    private JSONObject templateDataJson;
-    private String templateDocumentFileName;
-    private String templateDocumentFileURL;
-    private String outputDocumentFileName;
-    private final int outputDocumentFileType;
-    private Properties templateParams;    
-    private HashMap<String, Object> templateDataMap;
-    private String outputDocumentFileExt;
+    private String mTemplateDataString;
+    private JSONObject mTemplateDataJson;
+    private String mTemplateDocumentFileName;
+    private String mTemplateDocumentFileURL;
+    private String mOutputDocumentFileName;
+    private final int mOutputDocumentFileType;
+    private Properties mTemplateParams;    
+    private HashMap<String, Object> mTemplateDataMap;
+    private String mOutputDocumentFileExt;
 
     public TemplateDataFile(String aDataFileName, int aOutputDocumentFileType) {
-        this.dataFileName = aDataFileName;
-        this.outputDocumentFileType = aOutputDocumentFileType;
+        this.mDataFileName = aDataFileName;
+        this.mOutputDocumentFileType = aOutputDocumentFileType;
     }
 
     @Override
     public void buildData() throws TemplateException {
-        if (dataFileName == null) {
+        if (mDataFileName == null) {
             throw new TemplateException("Not defined template data file name.");
         }
-        dataFilePath = Path.of(dataFileName);
+        mDataFilePath = Path.of(mDataFileName);
         StringBuilder contentBuilder = new StringBuilder();
         Stream<String> stream;
         try {
-            stream = Files.lines(dataFilePath, StandardCharsets.UTF_8);
+            stream = Files.lines(mDataFilePath, StandardCharsets.UTF_8);
             stream.forEach(s -> contentBuilder.append(s).append("\n"));
-            templateDataString = contentBuilder.toString();
+            mTemplateDataString = contentBuilder.toString();
             if (getTemplateDataString() != null) {
-                templateDataJson = prepareTemplateDataJson(getTemplateDataString());
-                templateParams = prepareParams();
-                templateDocumentFileName = prepareTemplateName();
-                outputDocumentFileExt  = prepareOutputDocumentFileExt();
-                outputDocumentFileName = prepareOutputDocumentFileName();                
-                templateDataMap = createTemplateDataMap();
+                mTemplateDataJson = prepareTemplateDataJson(getTemplateDataString());
+                mTemplateParams = prepareParams();
+                mTemplateDocumentFileName = prepareTemplateName();
+                mOutputDocumentFileExt  = prepareOutputDocumentFileExt();
+                mOutputDocumentFileName = prepareOutputDocumentFileName();                
+                mTemplateDataMap = createTemplateDataMap();
             } else {
                 throw new TemplateException("No TemplateDataString");
             }
@@ -139,65 +139,65 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             if (getOutputDocumentFileType() == OUT_FILE_TYPE_PDF) {
                 outExt = "pdf";
             }
-            if(outputDocumentFileExt!=null) {
-                outExt = outputDocumentFileExt;
+            if(mOutputDocumentFileExt!=null) {
+                outExt = mOutputDocumentFileExt;
             }
-            outputDocumentFileName = outNam + "-out." + outExt;
+            mOutputDocumentFileName = outNam + "-out." + outExt;
             ret = getOutputDocumentFileName();
         }
         return ret;
     }
 
     /**
-     * @return the templateDocumentFileName
+     * @return the mTemplateDocumentFileName
      */
     @Override
     public String getTemplateDocumentFileName() {
-        return templateDocumentFileName;
+        return mTemplateDocumentFileName;
     }
 
     /**
-     * @return the templateDocumentFileURL
+     * @return the mTemplateDocumentFileURL
      */
     @Override
     public String getTemplateDocumentFileURL() {
-        return templateDocumentFileURL;
+        return mTemplateDocumentFileURL;
     }
 
     /**
-     * @return the outputDocumentFileType
+     * @return the mOutputDocumentFileType
      */
     public int getOutputDocumentFileType() {
-        return outputDocumentFileType;
+        return mOutputDocumentFileType;
     }
 
     /**
-     * @return the outputDocumentFileName
+     * @return the mOutputDocumentFileName
      */
     @Override
     public String getOutputDocumentFileName() {
-        return outputDocumentFileName;
+        return mOutputDocumentFileName;
     }
 
     /**
-     * @return the templateDataString
+     * @return the mTemplateDataString
      */
     public String getTemplateDataString() {
-        return templateDataString;
+        return mTemplateDataString;
     }
 
     /**
-     * @return the templateDataJson
+     * @return the mTemplateDataJson
      */
     public JSONObject getTemplateDataJson() {
-        return templateDataJson;
+        return mTemplateDataJson;
     }
 
     @Override
     public HashMap createTemplateDataMap() throws TemplateException {
         HashMap ret = new HashMap();
-        if (templateDataJson != null) {
-            JSONArray data = templateDataJson.getJSONArray(TEMPLATE_DATA_KEY);
+        if (mTemplateDataJson != null) {
+            JSONArray data = mTemplateDataJson.getJSONArray(TEMPLATE_DATA_KEY);
             for (int i = 0; i < data.length(); i++) {
                 //Iterator<?> keys = data.getJSONObject(i).keys();
                 JSONObject itemj = data.getJSONObject(i);
@@ -248,7 +248,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
 
     @Override
     public HashMap<String, Object> getTemplateDataMap() {
-        return templateDataMap;
+        return mTemplateDataMap;
     }
 
     /**
@@ -289,13 +289,13 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         }
         ret = getTemplateDataJson().getString(TEMPLATE_FILE_KEY);
         if (ret != null) {
-            templateDocumentFileName = ret;
+            mTemplateDocumentFileName = ret;
             try {
-                templateDocumentFileURL = prepareTemplateFileUrl(getTemplateDocumentFileName());
+                mTemplateDocumentFileURL = prepareTemplateFileUrl(getTemplateDocumentFileName());
             } catch (IOException ex) {
                 throw new TemplateException("Not defined template data file Url.");
             }
-            //System.out.println("TemplateDataFile getTemplateName " + templateDocumentFileURL);
+            //System.out.println("TemplateDataFile getTemplateName " + mTemplateDocumentFileURL);
         }
         return ret;
     }
@@ -341,7 +341,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         String ret;
         try {
             // load template with User fields and bookmark
-            java.io.File sourceFile = new java.io.File(outputDocumentFileName);
+            java.io.File sourceFile = new java.io.File(mOutputDocumentFileName);
             StringBuilder sTemplateFileUrl = new StringBuilder("file:///");
             sTemplateFileUrl.append(sourceFile.getCanonicalPath().replace('\\', '/'));
             ret = sTemplateFileUrl.toString();
@@ -353,7 +353,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
     
     @Override
     public String getOutputDocumentFileExt() {        
-        return outputDocumentFileExt;
+        return mOutputDocumentFileExt;
     }
 
     private Properties prepareParams() throws TemplateException {
@@ -394,7 +394,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
 
     @Override
     public Properties getTemplateParams() {
-        return templateParams;
+        return mTemplateParams;
     }
 
 }
