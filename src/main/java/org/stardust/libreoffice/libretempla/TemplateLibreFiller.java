@@ -205,6 +205,7 @@ public class TemplateLibreFiller implements TemplateConstants {
         HashMap templateFieldsDataMap = mTemplateDataFile.getTemplateDataMap();
 
         Iterator keyIterator = templateFieldsDataMap.keySet().iterator();
+        System.out.println("keyIterator = " + templateFieldsDataMap.keySet());
         //while(keyIterator.hasNext()){
         //    keyIterator.next(); 
         //}
@@ -219,7 +220,8 @@ public class TemplateLibreFiller implements TemplateConstants {
             String key = (String) keyIterator.next();
             Object oval = templateFieldsDataMap.get(key);
             String val = (String) oval.toString();
-            if (oval instanceof String) {
+            //if (oval instanceof String) {
+            if (oval instanceof String || oval instanceof Integer || oval instanceof Double) {
                 //Thread.sleep(500);
                 if (findWordTemplate(xSearchable, "${" + key + "}")) {
                     replaceWordTemplate(++curCount, xReplaceable, "${" + key + "}", val);

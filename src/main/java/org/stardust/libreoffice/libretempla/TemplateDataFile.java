@@ -86,6 +86,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
             stream = Files.lines(mDataFilePath, StandardCharsets.UTF_8);
             stream.forEach(s -> contentBuilder.append(s).append("\n"));
             mTemplateDataString = contentBuilder.toString();
+            //System.out.println("[mTemplateDataString]"+mTemplateDataString);
             if (getTemplateDataString() != null) {
                 mTemplateDataJson = prepareTemplateDataJson(getTemplateDataString());
                 mTemplateParams = prepareParams();
@@ -107,9 +108,7 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
         ret.append("    templateDocumentFileName=").append(getTemplateDocumentFileName()).append("\n");
         ret.append("    templateDocumentFileURL=").append(getTemplateDocumentFileURL()).append("\n");
         ret.append("    outputDocumentFileName=").append(getOutputDocumentFileName()).append("\n");
-
         ret.append("    templateDataString=").append(getTemplateDataString()).append("\n");
-
         return ret.toString();
     }
 
@@ -209,14 +208,17 @@ public class TemplateDataFile implements TemplateConstants, ITemplateDataFile {
                     params = itemj.get(DATA_PARAMS);
             System.out.println("        Item.params: " + params);
                 } catch (JSONException ex) {
-                    
+                    ex.printStackTrace();
                 } 
                 //System.out.println("        Key: " + key);
                 //System.out.println("        Class: " + val.getClass());
                 //System.out.println("        Value: " + val);
-                if (val instanceof String) {
-                    if (((String) val).contains("NOW()")) {
-                        val = getNowDateTime();
+                
+                if (!(val instanceof JSONArray) && !(val instanceof JSONObject)) {
+                    if (val instanceof String) {
+                        if (((String) val).contains("NOW()")) {
+                            val = getNowDateTime();
+                        }
                     }
                     ret.put(key, val);
                 }
