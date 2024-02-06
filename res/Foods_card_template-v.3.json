@@ -1,0 +1,44 @@
+{
+    "outputExt": "pdf",
+    "CloseOnExit": "true",
+    "templateFile": "res/Foods_card_template-v.3.odt",
+    "outputDocType": "lo",
+    "data": [
+        {
+            "key": "id",
+            "val": 1
+        },
+        {
+            "key": "created",
+            "val": "2023-12-24T15:18:37.496Z"
+        },
+        {
+            "key": "name",
+            "val": "Frozen Yogurt"
+        },
+        {
+            "key": "calories",
+            "val": 159
+        },
+        {
+            "key": "fat",
+            "val": 6
+        },
+        {
+            "key": "carbs",
+            "val": 24
+        },
+        {
+            "key": "protein",
+            "val": 4
+        },
+        {
+            "key": "iron",
+            "val": 1
+        },
+        {
+            "key": "nutrition_id",
+            "val": 1
+        }
+    ]
+}
